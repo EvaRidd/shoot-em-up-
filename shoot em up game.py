@@ -20,7 +20,7 @@ class Player:
         self.image = player_img
         self.x = WIDTH // 2
         self.y = HEIGHT - 60
-        self.speed = 8
+        self.speed = 12
         self.bullets = []
 
     def draw(self):
@@ -55,7 +55,7 @@ class Bullet:
         self.image = bullet_img
         self.x = x
         self.y = y
-        self.speed = 8
+        self.speed = 10
 
     def draw(self):
         win.blit(self.image, (self.x, self.y))
@@ -99,7 +99,7 @@ def main():
                 enemies.remove(enemy)
                 enemies.append(Enemy(enemy_speed))
                 missed_enemies += 1
-                if missed_enemies >= 3:
+                if missed_enemies >= 5:
                     run = False
             for bullet in player.bullets[:]:
                 if (enemy.x < bullet.x < enemy.x + enemy.image.get_width() and
@@ -111,7 +111,7 @@ def main():
                     break
 
         if killed_enemies % 20 == 0 and killed_enemies > 0:
-            enemy_speed += 0.1
+            enemy_speed += 0.02
 
         player.draw()
         for bullet in player.bullets:

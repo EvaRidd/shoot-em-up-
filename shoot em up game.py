@@ -120,7 +120,7 @@ def main():
     text = font.render("Game Over", True, RED)
     win.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
     pygame.display.update()
-    pygame.time.wait(3000)
+    pygame.time.wait(2000)
 
     pygame.quit()
 

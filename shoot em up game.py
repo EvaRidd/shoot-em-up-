@@ -69,6 +69,8 @@ def main():
     player = Player()
     enemies = [Enemy(1) for i in range(5)]
     missed_enemies = 0
+    killed_enemies = 0
+    enemy_speed = 1
 
     while run:
         clock.tick(30)
@@ -95,7 +97,7 @@ def main():
             enemy.move()
             if enemy.y > HEIGHT:
                 enemies.remove(enemy)
-                enemies.append(Enemy(enemy.speed))
+                enemies.append(Enemy(enemy_speed))
                 missed_enemies += 1
                 if missed_enemies >= 3:
                     run = False
@@ -104,8 +106,12 @@ def main():
                         enemy.y < bullet.y < enemy.y + enemy.image.get_height()):
                     enemies.remove(enemy)
                     player.bullets.remove(bullet)
-                    enemies.append(Enemy(enemy.speed))
+                    enemies.append(Enemy(enemy_speed))
+                    killed_enemies += 1
                     break
+
+        if killed_enemies % 20 == 0 and killed_enemies > 0:
+            enemy_speed += 0.1
 
         player.draw()
         for bullet in player.bullets:
@@ -113,14 +119,20 @@ def main():
         for enemy in enemies:
             enemy.draw()
 
+        font = pygame.font.Font(None, 36)
+        score_text = font.render(f'Score: {killed_enemies}', True, WHITE)
+        win.blit(score_text, (10, 10))
+
         pygame.display.update()
 
     win.fill(BLACK)
     font = pygame.font.Font(None, 74)
     text = font.render("Game Over", True, RED)
     win.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+    score_text = font.render(f'Score: {killed_enemies}', True, WHITE)
+    win.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 + text.get_height()))
     pygame.display.update()
-    pygame.time.wait(2000)
+    pygame.time.wait(3000)
 
     pygame.quit()
 
